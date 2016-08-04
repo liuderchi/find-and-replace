@@ -146,6 +146,9 @@ class ProjectFindView extends View
       'project-find:toggle-whole-word-option': => @toggleWholeWordOption()
       'project-find:replace-all': => @replaceAll()
 
+    @subscriptions.add atom.commands.add 'div.preview-pane',
+      'project-find:copy-search-result': @copySearchResultFromPane
+
     updateInterfaceForSearching = =>
       @setInfoMessage('Searching...')
 
@@ -182,6 +185,10 @@ class ProjectFindView extends View
     @findEditor.getModel().getBuffer().onDidChange =>
       @updateReplaceAllButtonEnablement(@model.getResultsSummary())
     @handleEventsForReplace()
+
+  copySearchResultFromPane: ->
+    atom.clipboard.write(Util.parseSearchResult())
+    atom.notifications.addInfo('Search results are copied to clipboard')
 
   handleEventsForReplace: ->
     @replaceEditor.getModel().getBuffer().onDidChange => @model.clearReplacementState()

@@ -1,4 +1,5 @@
 _ = require 'underscore-plus'
+{$} = require 'atom-space-pen-views'
 
 module.exports =
   escapeHtml: (str) ->
@@ -25,3 +26,20 @@ module.exports =
       "#{_.pluralize(matchCount, 'result')} found in #{_.pluralize(pathCount, 'file')} for <span class=\"highlight-info\">#{@sanitizePattern(findPattern)}</span>"
     else
       "No #{if replacedPathCount? then 'more' else ''} results found for '#{@sanitizePattern(findPattern)}'"
+
+  parseSearchResult: () ->
+    searchResult = []
+    summary = $('span.preview-count', 'div.preview-pane').text()
+    searchResult.push summary, ''
+
+    $('ol.results-view.list-tree>li.path').each () ->
+      path = $('span.path-name', @).text()
+      matches = $('span.path-match-number', @).text()
+      searchResult.push path + ' ' + matches
+
+      $('li.search-result', @).filter(':visible').each () ->
+        lineNumber = $('span.line-number', @).text()
+        preview = $('span.preview', @).text()
+        searchResult.push '\t' + lineNumber + '\t' + preview
+      searchResult.push ''
+    searchResult.join('\n')

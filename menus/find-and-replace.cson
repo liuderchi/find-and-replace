@@ -24,3 +24,7 @@
   '.tree-view > li.directory': [
     { 'label': 'Search in Directory', 'command': 'project-find:show-in-current-directory' }
   ]
+
+  'div.preview-pane': [
+    { 'label': 'Copy to Clipboard', 'command': 'project-find:copy-search-result' }
+  ]
