@@ -704,6 +704,22 @@ describe 'ProjectFindView', ->
             expect(resultsPaneView.previewCount.text()).toBe "13 results found in 2 files for items"
             expect(projectFindView.errorMessages).not.toBeVisible()
 
+        it "can copy search results to clipboard", ->
+          oldClipboardText = atom.clipboard.read()
+          atom.commands.dispatch(projectFindView[0], 'core:confirm')
+
+          waitsForPromise ->
+            searchPromise
+
+          runs ->
+            atom.commands.dispatch(projectFindView[0], 'project-find:copy-search-results')
+            searchResults = atom.clipboard.read().split('\n')
+            expect(searchResults[0]).toBe "13 results found in 2 files for items"
+            expect(searchResults[2]).toBe "sample.coffee (7)"
+            expect(searchResults[3]).toBe "\t2\tsort: (items) ->"
+            expect(searchResults[4]).toBe "\t3\treturn items if items.length <= 1"
+            atom.clipboard.write oldClipboardText
+
         it "only searches paths matching text in the path filter", ->
           spyOn(atom.workspace, 'scan').andCallFake -> Promise.resolve()
           projectFindView.pathsEditor.setText('*.js')

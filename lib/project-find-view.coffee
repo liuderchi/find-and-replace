@@ -134,6 +134,9 @@ class ProjectFindView extends View
     @subscriptions.add atom.commands.add 'atom-workspace',
       'find-and-replace:use-selection-as-find-pattern': @setSelectionAsFindPattern
 
+    @subscriptions.add atom.commands.add '.preview-pane',
+      'project-find:copy-search-results': @copySearchResultFromPane
+
     @subscriptions.add atom.commands.add @element,
       'find-and-replace:focus-next': => @focusNextElement(1)
       'find-and-replace:focus-previous': => @focusNextElement(-1)
@@ -145,9 +148,7 @@ class ProjectFindView extends View
       'project-find:toggle-case-option': => @toggleCaseOption()
       'project-find:toggle-whole-word-option': => @toggleWholeWordOption()
       'project-find:replace-all': => @replaceAll()
-
-    @subscriptions.add atom.commands.add 'div.preview-pane',
-      'project-find:copy-search-results': @copySearchResultFromPane
+      'project-find:copy-search-results': => @copySearchResultFromPane()
 
     updateInterfaceForSearching = =>
       @setInfoMessage('Searching...')
