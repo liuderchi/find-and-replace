@@ -27,19 +27,19 @@ module.exports =
     else
       "No #{if replacedPathCount? then 'more' else ''} results found for '#{@sanitizePattern(findPattern)}'"
 
-  parseSearchResult: () ->
+  parseSearchResult: ->
     searchResult = []
     summary = $('span.preview-count', 'div.preview-pane').text()
     searchResult.push summary, ''
 
-    $('ol.results-view.list-tree>li.path').each () ->
-      path = $('span.path-name', @).text()
-      matches = $('span.path-match-number', @).text()
+    $('ol.results-view.list-tree>li.path').each ->
+      path = $('span.path-name', this).text()
+      matches = $('span.path-match-number', this).text()
       searchResult.push path + ' ' + matches
 
-      $('li.search-result', @).filter(':visible').each () ->
-        lineNumber = $('span.line-number', @).text()
-        preview = $('span.preview', @).text()
+      $('li.search-result', this).filter(':visible').each ->
+        lineNumber = $('span.line-number', this).text()
+        preview = $('span.preview', this).text()
         searchResult.push '\t' + lineNumber + '\t' + preview
       searchResult.push ''
     searchResult.join('\n')

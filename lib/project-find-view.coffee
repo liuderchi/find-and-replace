@@ -188,7 +188,7 @@ class ProjectFindView extends View
 
   copySearchResultFromPane: ->
     atom.clipboard.write(Util.parseSearchResult())
-    atom.notifications.addInfo('Search results are copied to clipboard')
+    atom.notifications.addInfo('Search results have been copied to clipboard')
 
   handleEventsForReplace: ->
     @replaceEditor.getModel().getBuffer().onDidChange => @model.clearReplacementState()
