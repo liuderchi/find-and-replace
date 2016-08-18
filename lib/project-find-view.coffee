@@ -147,7 +147,7 @@ class ProjectFindView extends View
       'project-find:replace-all': => @replaceAll()
 
     @subscriptions.add atom.commands.add 'div.preview-pane',
-      'project-find:copy-search-result': @copySearchResultFromPane
+      'project-find:copy-search-results': @copySearchResultFromPane
 
     updateInterfaceForSearching = =>
       @setInfoMessage('Searching...')

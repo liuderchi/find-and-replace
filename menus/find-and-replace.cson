@@ -26,5 +26,5 @@
   ]
 
   'div.preview-pane': [
-    { 'label': 'Copy to Clipboard', 'command': 'project-find:copy-search-result' }
+    { 'label': 'Copy to Clipboard', 'command': 'project-find:copy-search-results' }
   ]
