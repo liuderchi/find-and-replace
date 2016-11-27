@@ -1,5 +1,4 @@
 _ = require 'underscore-plus'
-{$} = require 'atom-space-pen-views'
 
 module.exports =
   escapeHtml: (str) ->
@@ -29,17 +28,18 @@ module.exports =
 
   parseSearchResult: ->
     searchResult = []
-    summary = $('span.preview-count', 'div.preview-pane').text()
+    summary = document.querySelector('span.preview-count').textContent
     searchResult.push summary, ''
 
-    $('ol.results-view.list-tree>li.path').each ->
-      path = $('span.path-name', this).text()
-      matches = $('span.path-match-number', this).text()
-      searchResult.push path + ' ' + matches
+    document.querySelectorAll('ol.results-view.list-tree>li.path').forEach (el) ->
+      path = el.querySelector('span.path-name').textContent
+      matches = el.querySelector('span.path-match-number').textContent
+      searchResult.push "#{path} #{matches}"
 
-      $('li.search-result', this).filter(':visible').each ->
-        lineNumber = $('span.line-number', this).text()
-        preview = $('span.preview', this).text()
-        searchResult.push '\t' + lineNumber + '\t' + preview
+      el.querySelectorAll('li.search-result').forEach (e) ->
+        return if e.offsetParent is null  # skip invisible elements
+        lineNumber = e.querySelector('span.line-number').textContent
+        preview = e.querySelector('span.preview').textContent
+        searchResult.push "\t#{lineNumber}\t#{preview}"
       searchResult.push ''
     searchResult.join('\n')
